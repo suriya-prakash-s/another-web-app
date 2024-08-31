@@ -44,12 +44,13 @@ const Weather = () => {
     useEffect(() => {
         console.log('Fetching weather data');
         search('Chennai')
+        searchRef.current.focus()
     }, [])
 
     const searchRef = useRef()
 
     const handleSearch = () => {
-        search(searchRef.current.value)
+        searchRef.current.value === '' ? searchRef.current.focus() : search(searchRef.current.value)
     }
     return (
         <div className='weather'>
@@ -59,27 +60,28 @@ const Weather = () => {
                     <img src='icons/search.png' alt='search' />
                 </button>
             </div>
-            {/* <img src={`https://openweathermap.org/img/wn/${weatherData.icon}@2x.png`} alt="weather-icon" className='weather-icon' /> */}
-            <img src={weatherData.icon} alt="weather-icon" className='weather-icon' />
-            <span className='weather-desc'>{weatherData.description}</span>
-            <p className='temperature'>{Math.round(weatherData.temperature)}°C</p>
-            <p className='location'>{weatherData.location}</p>
-            <div className="weather-data">
-                <div className="col">
-                    <img src="icons/humidity.png" alt="humidity-icon" />
-                    <div>
-                        <p>{weatherData.humidity} %</p>
-                        <span>Humidity</span>
+            {weatherData ? <>
+                {/* <img src={`https://openweathermap.org/img/wn/${weatherData.icon}@2x.png`} alt="weather-icon" className='weather-icon' /> */}
+                <img src={weatherData.icon} alt="weather-icon" className='weather-icon' />
+                <span className='weather-desc'>{weatherData.description}</span>
+                <p className='temperature'>{Math.round(weatherData.temperature)}°C</p>
+                <p className='location'>{weatherData.location}</p>
+                <div className="weather-data">
+                    <div className="col">
+                        <img src="icons/humidity.png" alt="humidity-icon" />
+                        <div>
+                            <p>{weatherData.humidity} %</p>
+                            <span>Humidity</span>
+                        </div>
                     </div>
-                </div>
-                <div className="col">
-                    <img src="icons/wind.png" alt="wind-icon" />
-                    <div>
-                        <p>{weatherData.windSpeed} m/s</p>
-                        <span>Wind Speed</span>
+                    <div className="col">
+                        <img src="icons/wind.png" alt="wind-icon" />
+                        <div>
+                            <p>{weatherData.windSpeed} m/s</p>
+                            <span>Wind Speed</span>
+                        </div>
                     </div>
-                </div>
-            </div>
+                </div></> : <></>}
         </div>
     )
 }
